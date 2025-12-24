@@ -1,0 +1,17 @@
+name: ItemMail
+version: ${project.version}
+main: io.github.sulkywhale.itemmail.ItemMail
+api-version: '1.21'
+authors: [ Sulky_Whale ]
+commands:
+  itemmail:
+    aliases: [ mailitem ]
+    description: Mail items to other players
+
+permissions:
+  itemmail.mail.send:
+    default: true
+  itemmail.mail.gui:
+    default: true
+  itemmail.admin:
+    default: op
