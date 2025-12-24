@@ -49,4 +49,4 @@ Contributions are welcome. If you have any bug fixes, improvements, or new featu
 
 ## License
 
-ItemMail is licensed under the GNU GPL v3. Please see the [license](/LICENSE) for more information.
+ItemMail is licensed under the GNU GPL v3. Please see the [license](/LICENSE.md) for more information.
