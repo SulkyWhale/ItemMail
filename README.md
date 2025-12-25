@@ -13,7 +13,7 @@ Players can collect mail by doing `/itemmail` and clicking on the player head fo
 ## Permissions
 
 - `itemmail.mail.send` - Allows players to send mail.
-- `itemmail.mail.gui` - Allows players to view mail GUI.
+- `itemmail.mail.gui` - Allows players to view mail GUI and receive mail.
 - `itemmail.admin` - Allows admins to view contents of players' mail.
 
 ## Installation
