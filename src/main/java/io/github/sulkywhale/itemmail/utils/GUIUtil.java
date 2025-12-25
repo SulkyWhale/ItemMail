@@ -23,13 +23,13 @@ import java.util.List;
 public class GUIUtil {
 
     public static void openMailGUI(Player player) {
-        Inventory inventory = createInventory();
         List<Mail> mails = MailManager.getMail(player.getUniqueId());
         if (mails.isEmpty()) {
             player.sendMessage(Component.text("You do not have any mail.", NamedTextColor.RED));
             return;
         }
 
+        Inventory inventory = createInventory();
         for (Mail mail : mails) {
             ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -46,13 +46,13 @@ public class GUIUtil {
     }
 
     public static void openAdminGUI(Player admin, OfflinePlayer receiver) {
-        Inventory inventory = createInventory();
         List<Mail> mails = MailManager.getMail(receiver.getUniqueId());
         if (mails.isEmpty()) {
             admin.sendMessage(Component.text(receiver.getName() + " does not have any mail.", NamedTextColor.RED));
             return;
         }
 
+        Inventory inventory = createInventory();
         for (Mail mail : mails) {
             ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
@@ -69,13 +69,13 @@ public class GUIUtil {
     }
 
     public static void openItemViewInventory(Player viewer, OfflinePlayer target, OfflinePlayer receiver) {
-        Inventory inventory = createInventory();
         List<Mail> mails = MailManager.getMail(receiver.getUniqueId());
         if (mails.isEmpty()) {
             viewer.sendMessage(Component.text(target.getName() + " does not have any mail.", NamedTextColor.RED));
             return;
         }
 
+        Inventory inventory = createInventory();
         mails.stream()
                 .filter(mail -> mail.sender().equals(target.getUniqueId()))
                 .forEach(mail -> inventory.addItem(mail.itemStack()));
