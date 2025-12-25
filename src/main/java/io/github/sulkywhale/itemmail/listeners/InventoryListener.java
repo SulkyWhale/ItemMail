@@ -41,6 +41,7 @@ public class InventoryListener implements Listener {
 
         if (event.getInventory().getHolder() instanceof MailInventory) {
             if (clickedItem.getType() == Material.PLAYER_HEAD) {
+                GUIUtil.playClickSound(player);
                 SkullMeta meta = (SkullMeta) clickedItem.getItemMeta();
                 OfflinePlayer sender = meta.getOwningPlayer();
                 List<Mail> mails = MailManager.getMail(player.getUniqueId());
@@ -58,7 +59,6 @@ public class InventoryListener implements Listener {
                             iterator.remove();
                             MailManager.cleanupMail(player.getUniqueId(), mails);
                             player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Received item <item> from <player>.", Placeholder.component("item", mail.itemStack().displayName()), Placeholder.parsed("player", sender.getName())));
-                            GUIUtil.playClickSound(player);
                             if (mails.isEmpty()) {
                                 inventory.close();
                             } else {
@@ -77,17 +77,17 @@ public class InventoryListener implements Listener {
 
         if (event.getInventory().getHolder(false) instanceof AdminMailInventory adminMailInventory) {
             if (clickedItem.getType() == Material.PLAYER_HEAD) {
+                GUIUtil.playClickSound(player);
                 SkullMeta meta = (SkullMeta) clickedItem.getItemMeta();
                 OfflinePlayer target = meta.getOwningPlayer();
                 GUIUtil.openItemViewInventory(player, target, adminMailInventory.getReceiver());
-                GUIUtil.playClickSound(player);
             }
         }
 
         if (event.getInventory().getHolder(false) instanceof ItemViewInventory itemViewInventory) {
             if (clickedItem.getType() == Material.ARROW) {
-                GUIUtil.openAdminGUI(player, itemViewInventory.getReceiver());
                 GUIUtil.playClickSound(player);
+                GUIUtil.openAdminGUI(player, itemViewInventory.getReceiver());
             }
         }
     }
