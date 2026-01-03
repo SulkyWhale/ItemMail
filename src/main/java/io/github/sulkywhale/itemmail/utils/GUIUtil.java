@@ -92,6 +92,6 @@ public class GUIUtil {
     }
 
     private static Inventory createInventory() {
-        return Bukkit.createInventory(null, 54, Component.text("mail_inventory"));
+        return Bukkit.createInventory(null, 54);
     }
 }
