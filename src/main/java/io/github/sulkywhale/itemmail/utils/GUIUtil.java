@@ -5,6 +5,8 @@ import io.github.sulkywhale.itemmail.objects.Mail;
 import io.github.sulkywhale.itemmail.objects.inventories.AdminMailInventory;
 import io.github.sulkywhale.itemmail.MailManager;
 import io.github.sulkywhale.itemmail.objects.inventories.MailInventory;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.TooltipDisplay;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
@@ -39,6 +41,10 @@ public class GUIUtil {
             meta.displayName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
 
             skull.setItemMeta(meta);
+
+            TooltipDisplay tooltipDisplay = TooltipDisplay.tooltipDisplay().addHiddenComponents(DataComponentTypes.PROFILE).build();
+            skull.setData(DataComponentTypes.TOOLTIP_DISPLAY, tooltipDisplay);
+
             inventory.addItem(skull);
         }
 
@@ -62,6 +68,10 @@ public class GUIUtil {
             meta.displayName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
 
             skull.setItemMeta(meta);
+
+            TooltipDisplay tooltipDisplay = TooltipDisplay.tooltipDisplay().addHiddenComponents(DataComponentTypes.PROFILE).build();
+            skull.setData(DataComponentTypes.TOOLTIP_DISPLAY, tooltipDisplay);
+
             inventory.addItem(skull);
         }
 
