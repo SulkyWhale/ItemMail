@@ -3,6 +3,7 @@ version: ${project.version}
 main: io.github.sulkywhale.itemmail.ItemMail
 api-version: '1.21'
 authors: [ Sulky_Whale ]
+folia-supported: true
 commands:
   itemmail:
     aliases: [ mailitem ]

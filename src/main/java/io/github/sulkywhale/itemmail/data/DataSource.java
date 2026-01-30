@@ -23,7 +23,7 @@ public class DataSource {
 
     public static void init(ItemMail plugin) {
         DataSource.plugin = plugin;
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, DataSource::loadData);
+        plugin.getServer().getAsyncScheduler().runNow(plugin, task -> DataSource.loadData());
     }
 
     public static void saveData() throws IOException {
