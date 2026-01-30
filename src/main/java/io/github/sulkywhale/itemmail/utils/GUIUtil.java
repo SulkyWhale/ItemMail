@@ -33,12 +33,12 @@ public class GUIUtil {
 
         Inventory inventory = createInventory();
         for (Mail mail : mails) {
-            ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+            ItemStack skull = ItemStack.of(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
 
             OfflinePlayer sender = Bukkit.getOfflinePlayer(mail.sender());
             meta.setOwningPlayer(sender);
-            meta.displayName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+            meta.customName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
 
             skull.setItemMeta(meta);
 
@@ -60,12 +60,12 @@ public class GUIUtil {
 
         Inventory inventory = createInventory();
         for (Mail mail : mails) {
-            ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+            ItemStack skull = ItemStack.of(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta) skull.getItemMeta();
 
             OfflinePlayer sender = Bukkit.getOfflinePlayer(mail.sender());
             meta.setOwningPlayer(sender);
-            meta.displayName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+            meta.customName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
 
             skull.setItemMeta(meta);
 
@@ -90,8 +90,8 @@ public class GUIUtil {
                 .filter(mail -> mail.sender().equals(target.getUniqueId()))
                 .forEach(mail -> inventory.addItem(mail.itemStack()));
 
-        ItemStack backArrow = new ItemStack(Material.ARROW);
-        backArrow.editMeta(meta -> meta.displayName(Component.text("Back").decoration(TextDecoration.ITALIC, false)));
+        ItemStack backArrow = ItemStack.of(Material.ARROW);
+        backArrow.editMeta(meta -> meta.customName(Component.text("Back").decoration(TextDecoration.ITALIC, false)));
         inventory.setItem(45, backArrow);
 
         new ItemViewInventory(viewer, inventory, Component.text("Inspecting mail from " + target.getName()), receiver);
