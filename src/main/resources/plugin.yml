@@ -9,9 +9,18 @@ commands:
     description: Mail items to other players
 
 permissions:
+  itemmail.mail:
+    description: Allows players to send and receive mail as well as view the mail GUI
+    default: op
+    children:
+      itemmail.mail.send: true
+      itemmail.mail.gui: true
   itemmail.mail.send:
-    default: true
+    description: Allows players to send mail
+    default: op
   itemmail.mail.gui:
-    default: true
+    description: Allows players to view mail GUI and receive mail
+    default: op
   itemmail.admin:
+    description: Allows admins to view contents of players' mail
     default: op
