@@ -40,12 +40,11 @@ If you wish to build the plugin yourself, follow the instructions below.
 
 ## Issues
 
-If you encounter any bugs or issues, please open an [issue](https://github.com/SulkyWhale/ItemMail/issues/new). Be sure to check existing issues first to avoid duplicates.
+If you encounter any bugs or would like a new feature added, please open an [issue](https://github.com/SulkyWhale/ItemMail/issues/new). Be sure to check existing issues first to avoid duplicates.
 
 ## Contributing
 
 Contributions are welcome. If you have any bug fixes, improvements, or new features you would like to add to this project, feel free to open a [pull request](https://github.com/SulkyWhale/ItemMail/pulls).
-
 
 ## License
 
