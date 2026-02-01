@@ -7,7 +7,14 @@ import org.bukkit.inventory.Inventory;
 
 public class ItemViewInventory extends AdminMailInventory {
 
-    public ItemViewInventory(Player player, Inventory inventory, Component name, OfflinePlayer target) {
-        super(player, inventory, name, target);
+    private final OfflinePlayer sender;
+
+    public ItemViewInventory(Player viewer, Inventory inventory, Component name, OfflinePlayer receiver, OfflinePlayer sender) {
+        super(viewer, inventory, name, receiver);
+        this.sender = sender;
+    }
+
+    public OfflinePlayer getSender() {
+        return sender;
     }
 }

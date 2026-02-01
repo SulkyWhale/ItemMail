@@ -2,6 +2,7 @@ package io.github.sulkywhale.itemmail.listeners;
 
 import io.github.sulkywhale.itemmail.MailManager;
 import io.github.sulkywhale.itemmail.objects.inventories.AdminMailInventory;
+import io.github.sulkywhale.itemmail.objects.inventories.ConfirmationInventory;
 import io.github.sulkywhale.itemmail.objects.inventories.ItemMailInventory;
 import io.github.sulkywhale.itemmail.objects.inventories.ItemViewInventory;
 import io.github.sulkywhale.itemmail.objects.Mail;
@@ -57,7 +58,7 @@ public class InventoryListener implements Listener {
                         if (itemSlot == null) {
                             inventory.setItem(i, mail.itemStack());
                             iterator.remove();
-                            MailManager.cleanupMail(player.getUniqueId(), mails);
+                            MailManager.cleanupMail(player.getUniqueId());
                             player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Received item <item> from <player>.", Placeholder.component("item", mail.itemStack().displayName()), Placeholder.parsed("player", sender.getName())));
                             if (mails.isEmpty()) {
                                 inventory.close();
@@ -73,6 +74,46 @@ public class InventoryListener implements Listener {
                     }
                 }
             }
+            return;
+        }
+
+        if (event.getInventory().getHolder(false) instanceof ConfirmationInventory confirmationInventory) {
+            if (clickedItem.getType() == Material.GREEN_STAINED_GLASS_PANE) {
+                GUIUtil.playClickSound(player);
+                for (int i = 0; i < 36; i++) {
+                    ItemStack itemSlot = player.getInventory().getItem(i);
+                    if (itemSlot == null) {
+                        player.getInventory().setItem(i, confirmationInventory.getItem());
+                        MailManager.removeMail(confirmationInventory.getReceiver().getUniqueId(), confirmationInventory.getSender().getUniqueId(), confirmationInventory.getItem());
+                        MailManager.cleanupMail(confirmationInventory.getReceiver().getUniqueId());
+                        player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Removed item mail <item> from <player>.", Placeholder.component("item", confirmationInventory.getItem().displayName()), Placeholder.parsed("player", confirmationInventory.getReceiver().getName())));
+                        break;
+                    }
+                    if (i == 35) {
+                        player.sendMessage(Component.text("You do not have enough space in your inventory! Make space to remove item mail.", NamedTextColor.RED));
+                        break;
+                    }
+                }
+                player.getInventory().close();
+            } else if (clickedItem.getType() == Material.RED_STAINED_GLASS_PANE) {
+                GUIUtil.playClickSound(player);
+                GUIUtil.openItemViewInventory(player, confirmationInventory.getSender(), confirmationInventory.getReceiver());
+            }
+            return;
+        }
+
+        if (event.getInventory().getHolder(false) instanceof ItemViewInventory itemViewInventory) {
+            if (clickedItem.getType() == Material.ARROW) {
+                GUIUtil.playClickSound(player);
+                GUIUtil.openAdminGUI(player, itemViewInventory.getReceiver());
+                return;
+            } else {
+                if (player.hasPermission("itemmail.admin")) {
+                    GUIUtil.playClickSound(player);
+                    GUIUtil.openConfirmationInventory(player, itemViewInventory.getReceiver(), itemViewInventory.getSender(), clickedItem);
+                }
+            }
+            return;
         }
 
         if (event.getInventory().getHolder(false) instanceof AdminMailInventory adminMailInventory) {
@@ -81,13 +122,6 @@ public class InventoryListener implements Listener {
                 SkullMeta meta = (SkullMeta) clickedItem.getItemMeta();
                 OfflinePlayer target = meta.getOwningPlayer();
                 GUIUtil.openItemViewInventory(player, target, adminMailInventory.getReceiver());
-            }
-        }
-
-        if (event.getInventory().getHolder(false) instanceof ItemViewInventory itemViewInventory) {
-            if (clickedItem.getType() == Material.ARROW) {
-                GUIUtil.playClickSound(player);
-                GUIUtil.openAdminGUI(player, itemViewInventory.getReceiver());
             }
         }
     }

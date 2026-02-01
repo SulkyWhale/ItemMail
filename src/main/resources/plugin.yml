@@ -23,5 +23,10 @@ permissions:
     description: Allows players to view mail GUI and receive mail
     default: op
   itemmail.admin:
+    description: Allows admins to view contents of and modify players' mail
+    default: op
+    children:
+      itemmail.admin.view: true
+  itemmail.admin.view:
     description: Allows admins to view contents of players' mail
     default: op

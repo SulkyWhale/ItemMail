@@ -1,9 +1,10 @@
 package io.github.sulkywhale.itemmail.utils;
 
-import io.github.sulkywhale.itemmail.objects.inventories.ItemViewInventory;
+import io.github.sulkywhale.itemmail.MailManager;
 import io.github.sulkywhale.itemmail.objects.Mail;
 import io.github.sulkywhale.itemmail.objects.inventories.AdminMailInventory;
-import io.github.sulkywhale.itemmail.MailManager;
+import io.github.sulkywhale.itemmail.objects.inventories.ConfirmationInventory;
+import io.github.sulkywhale.itemmail.objects.inventories.ItemViewInventory;
 import io.github.sulkywhale.itemmail.objects.inventories.MailInventory;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.TooltipDisplay;
@@ -78,23 +79,39 @@ public class GUIUtil {
         new AdminMailInventory(admin, inventory, Component.text("Inspecting mail of " + receiver.getName()), receiver);
     }
 
-    public static void openItemViewInventory(Player viewer, OfflinePlayer target, OfflinePlayer receiver) {
+    public static void openItemViewInventory(Player viewer, OfflinePlayer sender, OfflinePlayer receiver) {
         List<Mail> mails = MailManager.getMail(receiver.getUniqueId());
         if (mails.isEmpty()) {
-            viewer.sendMessage(Component.text(target.getName() + " does not have any mail.", NamedTextColor.RED));
+            viewer.sendMessage(Component.text(sender.getName() + " does not have any mail.", NamedTextColor.RED));
             return;
         }
 
         Inventory inventory = createInventory();
         mails.stream()
-                .filter(mail -> mail.sender().equals(target.getUniqueId()))
+                .filter(mail -> mail.sender().equals(sender.getUniqueId()))
                 .forEach(mail -> inventory.addItem(mail.itemStack()));
 
         ItemStack backArrow = ItemStack.of(Material.ARROW);
         backArrow.editMeta(meta -> meta.customName(Component.text("Back").decoration(TextDecoration.ITALIC, false)));
         inventory.setItem(45, backArrow);
 
-        new ItemViewInventory(viewer, inventory, Component.text("Inspecting mail from " + target.getName()), receiver);
+        new ItemViewInventory(viewer, inventory, Component.text("Inspecting mail from " + sender.getName()), receiver, sender);
+    }
+
+    public static void openConfirmationInventory(Player viewer, OfflinePlayer receiver, OfflinePlayer sender, ItemStack item) {
+        Inventory inventory = createInventory();
+
+        inventory.setItem(13, item);
+
+        ItemStack rejectButton = ItemStack.of(Material.RED_STAINED_GLASS_PANE);
+        rejectButton.editMeta(meta -> meta.customName(Component.text("Cancel", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)));
+        inventory.setItem(30, rejectButton);
+
+        ItemStack confirmButton = ItemStack.of(Material.GREEN_STAINED_GLASS_PANE);
+        confirmButton.editMeta(meta -> meta.customName(Component.text("Remove mail from " + sender.getName() + " to " + receiver.getName(), NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false)));
+        inventory.setItem(32, confirmButton);
+
+        new ConfirmationInventory(viewer, inventory, Component.text("Would you like to delete mail?"), receiver, sender, item);
     }
 
     public static void playClickSound(Player player) {

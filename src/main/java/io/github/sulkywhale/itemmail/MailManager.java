@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class MailManager {
 
-    // A map containing a map of the player receiving the mail and a map with the sender and the ItemStack that was sent
+    // A map containing the player receiving the mail and a list containing the mail
     private static final Map<UUID, List<Mail>> mail = new HashMap<>();
 
     public static List<Mail> getMail(UUID receiver) {
@@ -24,8 +24,12 @@ public class MailManager {
         getMail(receiver).add(new Mail(sender, itemStack));
     }
 
-    public static void cleanupMail(UUID receiver, List<Mail> mails) {
-        if (mails.isEmpty()) {
+    public static void removeMail(UUID receiver, UUID sender, ItemStack itemStack) {
+        getMail(receiver).remove(new Mail(sender, itemStack));
+    }
+
+    public static void cleanupMail(UUID receiver) {
+        if (getMail(receiver).isEmpty()) {
             mail.remove(receiver);
         }
     }

@@ -9,8 +9,8 @@ public class AdminMailInventory extends ItemMailInventory {
 
     private final OfflinePlayer receiver;
 
-    public AdminMailInventory(Player player, Inventory inventory, Component name, OfflinePlayer receiver) {
-        super(player, inventory, name);
+    public AdminMailInventory(Player viewer, Inventory inventory, Component name, OfflinePlayer receiver) {
+        super(viewer, inventory, name);
         this.receiver = receiver;
     }
 

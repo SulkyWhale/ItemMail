@@ -6,7 +6,7 @@ import org.bukkit.inventory.Inventory;
 
 public class MailInventory extends ItemMailInventory {
 
-    public MailInventory(Player player, Inventory inventory, Component name) {
-        super(player, inventory, name);
+    public MailInventory(Player viewer, Inventory inventory, Component name) {
+        super(viewer, inventory, name);
     }
 }

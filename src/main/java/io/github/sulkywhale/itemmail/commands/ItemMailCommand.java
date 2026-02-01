@@ -87,7 +87,7 @@ public class ItemMailCommand implements TabExecutor {
         }
 
         if (args.length == 1) {
-            if (!player.hasPermission("itemmail.admin")) {
+            if (!player.hasPermission("itemmail.admin.view")) {
                 player.sendMessage(Component.text("You do not have permission!", NamedTextColor.RED));
                 return true;
             }

@@ -11,10 +11,10 @@ public class ItemMailInventory implements InventoryHolder {
 
     private final Inventory inventory;
 
-    public ItemMailInventory(Player player, Inventory inventory, Component name) {
+    public ItemMailInventory(Player viewer, Inventory inventory, Component name) {
         this.inventory = Bukkit.createInventory(this, 54, name);
         this.inventory.setContents(inventory.getContents());
-        player.openInventory(this.inventory);
+        viewer.openInventory(this.inventory);
     }
 
     @Override
