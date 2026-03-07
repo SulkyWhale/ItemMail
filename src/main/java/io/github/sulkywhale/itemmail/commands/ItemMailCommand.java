@@ -62,7 +62,7 @@ public class ItemMailCommand implements TabExecutor {
                 return true;
             }
             OfflinePlayer receiver = Bukkit.getOfflinePlayer(args[1]);
-            if (!receiver.hasPlayedBefore()) {
+            if (!receiver.isOnline() && !receiver.hasPlayedBefore()) {
                 player.sendMessage(Component.text("That player does not exist!", NamedTextColor.RED));
                 return true;
             }
