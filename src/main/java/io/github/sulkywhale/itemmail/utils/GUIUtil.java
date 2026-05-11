@@ -26,7 +26,7 @@ import java.util.List;
 public class GUIUtil {
 
     public static void openMailGUI(Player player) {
-        List<Mail> mails = MailManager.getMail(player.getUniqueId());
+        List<Mail> mails = MailManager.getInstance().getMail(player.getUniqueId());
         if (mails.isEmpty()) {
             player.sendMessage(Component.text("You do not have any mail.", NamedTextColor.RED));
             return;
@@ -53,7 +53,7 @@ public class GUIUtil {
     }
 
     public static void openAdminGUI(Player admin, OfflinePlayer receiver) {
-        List<Mail> mails = MailManager.getMail(receiver.getUniqueId());
+        List<Mail> mails = MailManager.getInstance().getMail(receiver.getUniqueId());
         if (mails.isEmpty()) {
             admin.sendMessage(Component.text(receiver.getName() + " does not have any mail.", NamedTextColor.RED));
             return;
@@ -80,7 +80,7 @@ public class GUIUtil {
     }
 
     public static void openItemViewInventory(Player viewer, OfflinePlayer sender, OfflinePlayer receiver) {
-        List<Mail> mails = MailManager.getMail(receiver.getUniqueId());
+        List<Mail> mails = MailManager.getInstance().getMail(receiver.getUniqueId());
         if (mails.isEmpty()) {
             viewer.sendMessage(Component.text(sender.getName() + " does not have any mail.", NamedTextColor.RED));
             return;

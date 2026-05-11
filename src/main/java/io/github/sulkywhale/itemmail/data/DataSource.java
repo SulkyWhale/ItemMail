@@ -29,7 +29,7 @@ public class DataSource {
     public static void saveData() throws IOException {
         File file = new File(plugin.getDataFolder(), "data.yml");
         YamlConfiguration config = new YamlConfiguration();
-        Set<Map.Entry<UUID, List<Mail>>> mails = MailManager.getMailMap().entrySet();
+        Set<Map.Entry<UUID, List<Mail>>> mails = MailManager.getInstance().getMailMap().entrySet();
         for (Map.Entry<UUID, List<Mail>> receiver : mails) {
             Map<UUID, List<ItemStack>> mailLoad = receiver.getValue().stream()
                     .collect(Collectors.groupingBy(
@@ -54,7 +54,7 @@ public class DataSource {
                 UUID sender = UUID.fromString(key);
                 ArrayList<ItemStack> itemStacks = (ArrayList<ItemStack>) config.getList(value.getKey() + "." + key);
                 for (ItemStack itemStack : itemStacks) {
-                    MailManager.addMail(receiver, sender, itemStack);
+                    MailManager.getInstance().addMail(receiver, sender, itemStack);
                 }
             }
         }

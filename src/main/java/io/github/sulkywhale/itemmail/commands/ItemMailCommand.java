@@ -76,7 +76,7 @@ public class ItemMailCommand implements TabExecutor {
                 player.sendMessage(Component.text("You are not holding an item in your hand.", NamedTextColor.GOLD));
                 return true;
             }
-            MailManager.addMail(receiver.getUniqueId(), player.getUniqueId(), itemStack);
+            MailManager.getInstance().addMail(receiver.getUniqueId(), player.getUniqueId(), itemStack);
             player.getInventory().clear(player.getInventory().getHeldItemSlot());
             player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Sent item <item> to <player>.", Placeholder.component("item", itemStack.displayName()), Placeholder.unparsed("player", receiver.getName())));
             Player receiverPlayer = receiver.getPlayer();

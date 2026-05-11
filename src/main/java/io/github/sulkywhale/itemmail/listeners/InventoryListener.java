@@ -45,7 +45,7 @@ public class InventoryListener implements Listener {
                 GUIUtil.playClickSound(player);
                 SkullMeta meta = (SkullMeta) clickedItem.getItemMeta();
                 OfflinePlayer sender = meta.getOwningPlayer();
-                List<Mail> mails = MailManager.getMail(player.getUniqueId());
+                List<Mail> mails = MailManager.getInstance().getMail(player.getUniqueId());
                 Iterator<Mail> iterator = mails.iterator();
                 PlayerInventory inventory = player.getInventory();
                 while (iterator.hasNext()) {
@@ -58,7 +58,7 @@ public class InventoryListener implements Listener {
                         if (itemSlot == null) {
                             inventory.setItem(i, mail.itemStack());
                             iterator.remove();
-                            MailManager.cleanupMail(player.getUniqueId());
+                            MailManager.getInstance().cleanupMail(player.getUniqueId());
                             player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Received item <item> from <player>.", Placeholder.component("item", mail.itemStack().displayName()), Placeholder.parsed("player", sender.getName())));
                             if (mails.isEmpty()) {
                                 inventory.close();
@@ -84,8 +84,8 @@ public class InventoryListener implements Listener {
                     ItemStack itemSlot = player.getInventory().getItem(i);
                     if (itemSlot == null) {
                         player.getInventory().setItem(i, confirmationInventory.getItem());
-                        MailManager.removeMail(confirmationInventory.getReceiver().getUniqueId(), confirmationInventory.getSender().getUniqueId(), confirmationInventory.getItem());
-                        MailManager.cleanupMail(confirmationInventory.getReceiver().getUniqueId());
+                        MailManager.getInstance().removeMail(confirmationInventory.getReceiver().getUniqueId(), confirmationInventory.getSender().getUniqueId(), confirmationInventory.getItem());
+                        MailManager.getInstance().cleanupMail(confirmationInventory.getReceiver().getUniqueId());
                         player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Removed item mail <item> from <player>.", Placeholder.component("item", confirmationInventory.getItem().displayName()), Placeholder.parsed("player", confirmationInventory.getReceiver().getName())));
                         break;
                     }

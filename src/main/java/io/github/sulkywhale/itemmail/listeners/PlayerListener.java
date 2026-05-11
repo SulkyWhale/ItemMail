@@ -15,7 +15,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (!MailManager.getMail(player.getUniqueId()).isEmpty()) {
+        if (!MailManager.getInstance().getMail(player.getUniqueId()).isEmpty()) {
             Bukkit.getGlobalRegionScheduler().runDelayed(
                     ItemMail.getPlugin(),
                     task -> player.sendMessage(Component.text("You have item mail. Do /itemmail to get it.", NamedTextColor.GOLD)),
