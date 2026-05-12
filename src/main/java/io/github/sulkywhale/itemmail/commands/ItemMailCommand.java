@@ -24,7 +24,7 @@ public class ItemMailCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 1) {
-            if ("send".startsWith(args[0])) {
+            if ("send".startsWith(args[0].toLowerCase())) {
                 return List.of("send");
             } else if (sender.hasPermission("itemmail.admin")) {
                 return matchPlayers(args[0]);
