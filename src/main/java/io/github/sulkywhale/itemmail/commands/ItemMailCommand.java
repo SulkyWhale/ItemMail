@@ -2,6 +2,8 @@ package io.github.sulkywhale.itemmail.commands;
 
 import io.github.sulkywhale.itemmail.MailManager;
 import io.github.sulkywhale.itemmail.utils.GUIUtil;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -81,6 +83,7 @@ public class ItemMailCommand implements TabExecutor {
             player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Sent item <item> to <player>.", Placeholder.component("item", itemStack.displayName()), Placeholder.unparsed("player", receiver.getName())));
             Player receiverPlayer = receiver.getPlayer();
             if (receiverPlayer != null) {
+                player.playSound(Sound.sound(Key.key("ui.loom.take_result"), Sound.Source.PLAYER, 1f, 1.5f));
                 receiverPlayer.sendMessage(MiniMessage.miniMessage().deserialize("<gold>You received item mail from <player>. Do /itemmail to get it.", Placeholder.unparsed("player", player.getName())));
             }
             return true;
