@@ -1,0 +1,12 @@
+itemmail:
+  database:
+    # Choose how to store the data. Valid types are `FlatFile` and `MySQL`.
+    type: FlatFile
+    # These settings only apply if you have chosen the `MySQL` type.
+    host: localhost
+    port: 3306
+    database_name: itemmail
+    table_prefix: itemmail_
+    username: root
+    password: ''
+

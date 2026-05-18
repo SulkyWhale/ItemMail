@@ -4,6 +4,10 @@ main: io.github.sulkywhale.itemmail.ItemMail
 api-version: '1.21'
 authors: [ Sulky_Whale ]
 folia-supported: true
+
+libraries:
+  - com.zaxxer:hikaricp:7.0.2
+
 commands:
   itemmail:
     aliases: [ mailitem ]
