@@ -17,13 +17,16 @@ You will need to give players the required permissions for them to be able to us
 - `itemmail.mail` - Allows players to send and receive mail as well as view the mail GUI.
 - `itemmail.mail.send` - Allows players to send mail.
 - `itemmail.mail.gui` - Allows players to view mail GUI and receive mail.
-- `itemmail.admin` - Allows admins to view contents of and modify players' mail.
+- `itemmail.admin` - Allows admins to view contents of and modify players' mail and use all other admin commands.
 - `itemmail.admin.view` - Allows admins to view contents of players' mail.
+- `itemmail.admin.reload` - Allows admins to reload the plugin.
 
 ## Installation
 
 1. Download the latest JAR from [Releases](https://github.com/SulkyWhale/ItemMail/releases) and place it in your plugins folder.
 2. Restart your server.
+
+Checkout the [wiki](https://github.com/SulkyWhale/ItemMail/wiki) for more information on configuring the plugin.
 
 ## Building
 

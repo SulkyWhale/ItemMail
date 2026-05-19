@@ -31,6 +31,10 @@ permissions:
     default: op
     children:
       itemmail.admin.view: true
+      itemmail.admin.reload: true
   itemmail.admin.view:
     description: Allows admins to view contents of players' mail
+    default: op
+  itemmail.admin.reload:
+    description: Allows admins to reload the plugin
     default: op

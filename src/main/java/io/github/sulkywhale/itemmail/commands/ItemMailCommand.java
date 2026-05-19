@@ -1,6 +1,8 @@
 package io.github.sulkywhale.itemmail.commands;
 
+import io.github.sulkywhale.itemmail.ItemMail;
 import io.github.sulkywhale.itemmail.MailManager;
+import io.github.sulkywhale.itemmail.objects.exceptions.DatabaseInitException;
 import io.github.sulkywhale.itemmail.utils.GUIUtil;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -18,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,14 +28,21 @@ public class ItemMailCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             if ("send".startsWith(args[0].toLowerCase())) {
-                return List.of("send");
-            } else if (sender.hasPermission("itemmail.admin")) {
+                completions.add("send");
+            }
+            if ("reload".startsWith(args[0].toLowerCase()) && sender.hasPermission("itemmail.admin.reload")) {
+                completions.add("reload");
+            }
+            if (!completions.isEmpty()) {
+                return completions;
+            }
+            if (sender.hasPermission("itemmail.admin")) {
                 return matchPlayers(args[0]);
             }
-        }
-        if (args.length == 2) {
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("send")) {
             return matchPlayers(args[1]);
         }
         return Collections.emptyList();
@@ -86,6 +96,23 @@ public class ItemMailCommand implements TabExecutor {
                 player.playSound(Sound.sound(Key.key("ui.loom.take_result"), Sound.Source.PLAYER, 1f, 1.5f));
                 receiverPlayer.sendMessage(MiniMessage.miniMessage().deserialize("<gold>You received item mail from <player>. Do /itemmail to get it.", Placeholder.unparsed("player", player.getName())));
             }
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("reload")) {
+            if (!player.hasPermission("itemmail.admin.reload")) {
+                player.sendMessage(Component.text("You do not have permission!", NamedTextColor.RED));
+                return true;
+            }
+            try {
+                ItemMail.getPlugin().reloadPlugin();
+            } catch (DatabaseInitException e) {
+                sender.sendMessage(Component.text("Failed to load the data source.", NamedTextColor.RED));
+                ItemMail.getPlugin().getLogger().severe("Failed to load the data source: " + e);
+                return true;
+            }
+            sender.sendMessage(Component.text("Successfully reloaded ItemMail.", NamedTextColor.GREEN));
+            ItemMail.getPlugin().getLogger().info("Successfully reloaded ItemMail.");
             return true;
         }
 

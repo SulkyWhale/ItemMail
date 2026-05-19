@@ -33,6 +33,7 @@ public class ItemMail extends JavaPlugin {
             getLogger().severe("Failed to load the data source: " + e);
             getServer().getPluginManager().disablePlugin(this);
         }
+        dataSource.loadData();
 
         getCommand("itemmail").setExecutor(new ItemMailCommand());
         getCommand("itemmail").setTabCompleter(new ItemMailCommand());
@@ -54,7 +55,12 @@ public class ItemMail extends JavaPlugin {
             case "mysql" -> new SQLSource(this);
             default -> throw new DatabaseInitException("Invalid database type in config.");
         };
+    }
 
-        dataSource.loadData();
+    public void reloadPlugin() throws DatabaseInitException {
+        dataSource.saveData();
+        reloadConfig();
+        Config.init(getConfig());
+        initDataSource();
     }
 }
