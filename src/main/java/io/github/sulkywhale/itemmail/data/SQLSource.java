@@ -62,6 +62,7 @@ public class SQLSource extends DataSource {
     @Override
     public void saveData() {
         try (Connection connection = hikariDataSource.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement("REPLACE INTO " + Config.getDatabaseTablePrefix() + "mail (receiver, sender, itemstack) VALUES (?, ?, ?);");
             for (Map.Entry<UUID, List<Mail>> receiver : MailManager.getInstance().getMailMap().entrySet()) {
                 Map<UUID, List<ItemStack>> mailLoad = receiver.getValue().stream()
                         .collect(Collectors.groupingBy(
@@ -69,13 +70,13 @@ public class SQLSource extends DataSource {
                                 Collectors.mapping(Mail::itemStack, Collectors.toList())
                         ));
                 for (Map.Entry<UUID, List<ItemStack>> mail : mailLoad.entrySet()) {
-                    PreparedStatement ps = connection.prepareStatement("REPLACE INTO " + Config.getDatabaseTablePrefix() + "mail (receiver, sender, itemstack) VALUES (?, ?, ?);");
                     ps.setString(1, String.valueOf(receiver.getKey()));
                     ps.setString(2, String.valueOf(mail.getKey()));
                     ps.setBytes(3, ItemStack.serializeItemsAsBytes(mail.getValue()));
-                    ps.executeUpdate();
+                    ps.addBatch();
                 }
             }
+            ps.executeBatch();
         } catch (SQLException e) {
             plugin.getLogger().severe("An error occurred when attempting to connect to the database." + e);
         }
@@ -83,7 +84,7 @@ public class SQLSource extends DataSource {
 
     private void initTables() {
         try (Connection connection = hikariDataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + Config.getDatabaseTablePrefix() + "mail (receiver VARCHAR(36) PRIMARY KEY, sender VARCHAR(36), itemstack BLOB);");
+            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + Config.getDatabaseTablePrefix() + "mail (receiver VARCHAR(36), sender VARCHAR(36), itemstack BLOB, PRIMARY KEY (receiver, sender));");
             ps.executeUpdate();
         } catch (SQLException e) {
             plugin.getLogger().severe("An error occurred when attempting to connect to the database." + e);
