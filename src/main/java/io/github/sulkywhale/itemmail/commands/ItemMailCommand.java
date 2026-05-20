@@ -2,6 +2,8 @@ package io.github.sulkywhale.itemmail.commands;
 
 import io.github.sulkywhale.itemmail.ItemMail;
 import io.github.sulkywhale.itemmail.MailManager;
+import io.github.sulkywhale.itemmail.config.Config;
+import io.github.sulkywhale.itemmail.hooks.VaultHook;
 import io.github.sulkywhale.itemmail.objects.exceptions.DatabaseInitException;
 import io.github.sulkywhale.itemmail.utils.GUIUtil;
 import net.kyori.adventure.key.Key;
@@ -10,6 +12,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -82,10 +85,13 @@ public class ItemMailCommand implements TabExecutor {
                 player.sendMessage(Component.text("You cannot send mail to yourself!", NamedTextColor.RED));
                 return true;
             }
-
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             if (itemStack.getType() == Material.AIR) {
                 player.sendMessage(Component.text("You are not holding an item in your hand.", NamedTextColor.GOLD));
+                return true;
+            }
+            if (Config.isUsingEconomy() && VaultHook.isEnabled() && VaultHook.withdraw(player, Config.getMailCost()).type != EconomyResponse.ResponseType.SUCCESS) {
+                player.sendMessage(Component.text("You do not have enough money.", NamedTextColor.RED));
                 return true;
             }
             MailManager.getInstance().addMail(receiver.getUniqueId(), player.getUniqueId(), itemStack);

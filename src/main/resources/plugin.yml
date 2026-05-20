@@ -4,6 +4,7 @@ main: io.github.sulkywhale.itemmail.ItemMail
 api-version: '1.21'
 authors: [ Sulky_Whale ]
 folia-supported: true
+softdepend: [ Vault ]
 
 libraries:
   - com.zaxxer:hikaricp:7.0.2

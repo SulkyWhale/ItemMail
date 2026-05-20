@@ -1,4 +1,11 @@
 itemmail:
+  # Settings for using ItemMail with an economy.
+  economy:
+    # Do you want to use an economy with ItemMail?
+    # This setting will only have an effect if Vault is present.
+    enabled: false
+    # How much should item mail cost to send?
+    mail_cost: 10.0
   database:
     # Choose how to store the data. Valid types are `FlatFile` and `MySQL`.
     type: FlatFile

@@ -10,6 +10,14 @@ public class Config {
         Config.config = config;
     }
 
+    public static boolean isUsingEconomy() {
+        return config.getBoolean("itemmail.economy.enabled");
+    }
+
+    public static double getMailCost() {
+        return config.getDouble("itemmail.economy.mail_cost");
+    }
+
     public static String getDatabaseType() {
         return config.getString("itemmail.database.type");
     }

@@ -5,9 +5,11 @@ import io.github.sulkywhale.itemmail.config.Config;
 import io.github.sulkywhale.itemmail.data.DataSource;
 import io.github.sulkywhale.itemmail.data.FlatFileSource;
 import io.github.sulkywhale.itemmail.data.SQLSource;
+import io.github.sulkywhale.itemmail.hooks.VaultHook;
 import io.github.sulkywhale.itemmail.listeners.InventoryListener;
 import io.github.sulkywhale.itemmail.listeners.PlayerListener;
 import io.github.sulkywhale.itemmail.objects.exceptions.DatabaseInitException;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ItemMail extends JavaPlugin {
@@ -40,6 +42,8 @@ public class ItemMail extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
+        hookEconomy();
+
         getLogger().info("Plugin enabled.");
     }
 
@@ -62,5 +66,16 @@ public class ItemMail extends JavaPlugin {
         reloadConfig();
         Config.init(getConfig());
         initDataSource();
+        hookEconomy();
+    }
+
+    private void hookEconomy() {
+        if (Config.isUsingEconomy() && getServer().getPluginManager().getPlugin("Vault") != null) {
+            Economy economy = getServer().getServicesManager().load(Economy.class);
+            if (economy != null) {
+                VaultHook.setEconomy(economy);
+                getLogger().info("Successfully hooked with Vault");
+            }
+        }
     }
 }
