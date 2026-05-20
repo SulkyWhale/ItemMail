@@ -94,11 +94,10 @@ public class InventoryListener implements Listener {
                         break;
                     }
                 }
-                player.getInventory().close();
             } else if (clickedItem.getType() == Material.RED_STAINED_GLASS_PANE) {
                 GUIUtil.playClickSound(player);
-                GUIUtil.openItemViewInventory(player, confirmationInventory.getSender(), confirmationInventory.getReceiver());
             }
+            GUIUtil.openItemViewInventory(player, confirmationInventory.getSender(), confirmationInventory.getReceiver());
             return;
         }
 
