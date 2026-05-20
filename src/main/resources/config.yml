@@ -1,4 +1,8 @@
 itemmail:
+  # Add items that players are not allowed to mail to each other.
+  # Valid item names can be found here: https://jd.papermc.io/paper/26.1.2/org/bukkit/Material.html
+  blacklist:
+    - MY_ITEM
   # Settings for using ItemMail with an economy.
   economy:
     # Do you want to use an economy with ItemMail?

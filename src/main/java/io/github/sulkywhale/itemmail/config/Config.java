@@ -2,12 +2,18 @@ package io.github.sulkywhale.itemmail.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 public class Config {
 
     private static FileConfiguration config;
 
     public static void init(FileConfiguration config) {
         Config.config = config;
+    }
+
+    public static List<String> getItemBlacklist() {
+        return config.getStringList("itemmail.blacklist");
     }
 
     public static boolean isUsingEconomy() {
