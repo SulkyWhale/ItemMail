@@ -6,7 +6,8 @@ A GUI-based item mail Minecraft plugin for Paper servers to send items to other 
 
 - `/itemmail` - Open the mail GUI.
 - `/itemmail send {player name}` - Sends the item that the player is holding to the specified player.
-- `/itemmail {player name}` - Admin command for players with the permission `itemmail.admin` to open a GUI to inspect the mail of the specified player.
+- `/itemmail {player name}` - Admin command to open a GUI to inspect the mail of the specified player.
+- `itemmail reload` - Reloads the plugin.
 
 Players can collect mail by doing `/itemmail` and clicking on the player head for the player they wish to receive mail from.
 
