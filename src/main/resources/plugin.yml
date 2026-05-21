@@ -7,7 +7,7 @@ folia-supported: true
 softdepend: [ Vault ]
 
 libraries:
-  - com.zaxxer:hikaricp:7.0.2
+  - com.zaxxer:HikariCP:7.0.2
 
 commands:
   itemmail:
