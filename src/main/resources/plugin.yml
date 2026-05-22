@@ -27,6 +27,9 @@ permissions:
   itemmail.mail.gui:
     description: Allows players to view mail GUI and receive mail
     default: op
+  itemmail.mail.blacklist.bypass:
+    description: Allows players to bypass the mail blacklist
+    default: op
   itemmail.admin:
     description: Allows admins to view contents of and modify players' mail
     default: op

@@ -90,7 +90,7 @@ public class ItemMailCommand implements TabExecutor {
                 player.sendMessage(Component.text("You are not holding an item in your hand.", NamedTextColor.GOLD));
                 return true;
             }
-            if (Config.getItemBlacklist().contains(itemStack.getType().name())) {
+            if (!player.hasPermission("itemmail.mail.blacklist.bypass") && Config.getItemBlacklist().contains(itemStack.getType().name())) {
                 player.sendMessage(Component.text("You are not allowed to mail that type of item.", NamedTextColor.RED));
                 return true;
             }
