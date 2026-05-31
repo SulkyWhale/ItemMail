@@ -19,6 +19,7 @@ You will need to give players the required permissions for them to be able to us
 - `itemmail.mail.send` - Allows players to send mail.
 - `itemmail.mail.gui` - Allows players to view mail GUI and receive mail.
 - `itemmail.mail.blacklist.bypass` - Allows players to bypass the mail blacklist.
+- `itemmail.mail.cost.bypass` - Allows players to bypass the mail cost, if it is enabled in the config and Vault is present.
 - `itemmail.admin` - Allows admins to view contents of and modify players' mail and use all other admin commands.
 - `itemmail.admin.view` - Allows admins to view contents of players' mail.
 - `itemmail.admin.reload` - Allows admins to reload the plugin.

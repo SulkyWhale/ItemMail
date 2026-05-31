@@ -94,7 +94,7 @@ public class ItemMailCommand implements TabExecutor {
                 player.sendMessage(Component.text("You are not allowed to mail that type of item.", NamedTextColor.RED));
                 return true;
             }
-            if (Config.isUsingEconomy() && VaultHook.isEnabled() && VaultHook.withdraw(player, Config.getMailCost()).type != EconomyResponse.ResponseType.SUCCESS) {
+            if (Config.isUsingEconomy() && !player.hasPermission("itemmail.mail.cost.bypass") && VaultHook.isEnabled() && VaultHook.withdraw(player, Config.getMailCost()).type != EconomyResponse.ResponseType.SUCCESS) {
                 player.sendMessage(Component.text("You do not have enough money.", NamedTextColor.RED));
                 return true;
             }

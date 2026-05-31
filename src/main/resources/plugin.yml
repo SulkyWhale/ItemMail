@@ -30,6 +30,9 @@ permissions:
   itemmail.mail.blacklist.bypass:
     description: Allows players to bypass the mail blacklist
     default: op
+  itemmail.mail.cost.bypass:
+    description: Allows players to bypass the mail cost
+    default: op
   itemmail.admin:
     description: Allows admins to view contents of and modify players' mail
     default: op
