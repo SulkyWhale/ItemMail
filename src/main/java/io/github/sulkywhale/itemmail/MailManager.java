@@ -6,16 +6,16 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MailManager {
 
     private static MailManager instance;
     // A map containing the player receiving the mail and a list containing the mail
-    private final Map<UUID, List<Mail>> mail = new HashMap<>();
+    private final Map<UUID, List<Mail>> mail = new ConcurrentHashMap<>();
 
     private MailManager() {
     }
