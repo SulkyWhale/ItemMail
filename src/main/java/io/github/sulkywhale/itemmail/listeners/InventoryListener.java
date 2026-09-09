@@ -34,6 +34,9 @@ public class InventoryListener implements Listener {
 
         event.setCancelled(true);
 
+        if (event.getClickedInventory() != event.getInventory())
+            return;
+
         if (event.getHotbarButton() > -1)
             return;
 
