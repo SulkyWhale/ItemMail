@@ -54,7 +54,14 @@ public class GUIUtil {
 
         mails.stream()
                 .filter(mail -> mail.sender().equals(sender.getUniqueId()))
-                .forEach(mail -> inventory.addItem(mail.itemStack()));
+                .forEach(mail -> {
+                    for (int i = 0; i < 44; i++) {
+                        if (inventory.getItem(i) == null) {
+                            inventory.setItem(i, mail.itemStack());
+                            break;
+                        }
+                    }
+                });
 
         ItemStack backArrow = ItemStack.of(Material.ARROW);
         backArrow.editMeta(meta -> meta.customName(Component.text("Back").decoration(TextDecoration.ITALIC, false)));
