@@ -60,11 +60,7 @@ public class InventoryListener implements Listener {
                             iterator.remove();
                             MailManager.getInstance().cleanupMail(player.getUniqueId());
                             player.sendMessage(MiniMessage.miniMessage().deserialize("<gold>Received item <item> from <player>.", Placeholder.component("item", mail.itemStack().displayName()), Placeholder.parsed("player", sender.getName())));
-                            if (mails.isEmpty()) {
-                                inventory.close();
-                            } else {
-                                GUIUtil.openMailGUI(player);
-                            }
+                            GUIUtil.openMailGUI(player, false);
                             break;
                         }
                         if (i == 35) {
@@ -104,7 +100,7 @@ public class InventoryListener implements Listener {
         if (event.getInventory().getHolder(false) instanceof ItemViewInventory itemViewInventory) {
             if (clickedItem.getType() == Material.ARROW) {
                 GUIUtil.playClickSound(player);
-                GUIUtil.openAdminGUI(player, itemViewInventory.getReceiver());
+                GUIUtil.openAdminGUI(player, itemViewInventory.getReceiver(), false);
                 return;
             } else {
                 if (player.hasPermission("itemmail.admin")) {

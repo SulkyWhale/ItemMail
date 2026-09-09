@@ -63,7 +63,7 @@ public class ItemMailCommand implements TabExecutor {
                 player.sendMessage(Component.text("You do not have permission!", NamedTextColor.RED));
                 return true;
             }
-            GUIUtil.openMailGUI(player);
+            GUIUtil.openMailGUI(player, true);
             return true;
         }
 
@@ -137,7 +137,7 @@ public class ItemMailCommand implements TabExecutor {
                 return true;
             }
 
-            GUIUtil.openAdminGUI(player, target);
+            GUIUtil.openAdminGUI(player, target, true);
             return true;
         }
 

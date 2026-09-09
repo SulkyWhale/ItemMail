@@ -20,73 +20,38 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class GUIUtil {
 
-    public static void openMailGUI(Player player) {
+    public static void openMailGUI(Player player, boolean notify) {
         List<Mail> mails = MailManager.getInstance().getMail(player.getUniqueId());
-        if (mails.isEmpty()) {
-            player.sendMessage(Component.text("You do not have any mail.", NamedTextColor.RED));
+        Inventory inventory = attemptToOpenMailInventory(player, player, mails, notify);
+        if (inventory == null)
             return;
-        }
 
-        Inventory inventory = createInventory();
-        for (Mail mail : mails) {
-            ItemStack skull = ItemStack.of(Material.PLAYER_HEAD);
-            SkullMeta meta = (SkullMeta) skull.getItemMeta();
-
-            OfflinePlayer sender = Bukkit.getOfflinePlayer(mail.sender());
-            meta.setOwningPlayer(sender);
-            meta.customName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
-
-            skull.setItemMeta(meta);
-
-            TooltipDisplay tooltipDisplay = TooltipDisplay.tooltipDisplay().addHiddenComponents(DataComponentTypes.PROFILE).build();
-            skull.setData(DataComponentTypes.TOOLTIP_DISPLAY, tooltipDisplay);
-
-            inventory.addItem(skull);
-        }
-
+        populateMailInventory(mails, inventory);
         new MailInventory(player, inventory, Component.text("Item Mail"));
     }
 
-    public static void openAdminGUI(Player admin, OfflinePlayer receiver) {
+    public static void openAdminGUI(Player admin, OfflinePlayer receiver, boolean notify) {
         List<Mail> mails = MailManager.getInstance().getMail(receiver.getUniqueId());
-        if (mails.isEmpty()) {
-            admin.sendMessage(Component.text(receiver.getName() + " does not have any mail.", NamedTextColor.RED));
+        Inventory inventory = attemptToOpenMailInventory(admin, receiver, mails, notify);
+        if (inventory == null)
             return;
-        }
 
-        Inventory inventory = createInventory();
-        for (Mail mail : mails) {
-            ItemStack skull = ItemStack.of(Material.PLAYER_HEAD);
-            SkullMeta meta = (SkullMeta) skull.getItemMeta();
-
-            OfflinePlayer sender = Bukkit.getOfflinePlayer(mail.sender());
-            meta.setOwningPlayer(sender);
-            meta.customName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
-
-            skull.setItemMeta(meta);
-
-            TooltipDisplay tooltipDisplay = TooltipDisplay.tooltipDisplay().addHiddenComponents(DataComponentTypes.PROFILE).build();
-            skull.setData(DataComponentTypes.TOOLTIP_DISPLAY, tooltipDisplay);
-
-            inventory.addItem(skull);
-        }
-
+        populateMailInventory(mails, inventory);
         new AdminMailInventory(admin, inventory, Component.text("Inspecting mail of " + receiver.getName()), receiver);
     }
 
     public static void openItemViewInventory(Player viewer, OfflinePlayer sender, OfflinePlayer receiver) {
         List<Mail> mails = MailManager.getInstance().getMail(receiver.getUniqueId());
-        if (mails.isEmpty()) {
-            viewer.sendMessage(Component.text(sender.getName() + " does not have any mail.", NamedTextColor.RED));
+        Inventory inventory = attemptToOpenMailInventory(viewer, receiver, mails, false);
+        if (inventory == null)
             return;
-        }
 
-        Inventory inventory = createInventory();
         mails.stream()
                 .filter(mail -> mail.sender().equals(sender.getUniqueId()))
                 .forEach(mail -> inventory.addItem(mail.itemStack()));
@@ -116,6 +81,37 @@ public class GUIUtil {
 
     public static void playClickSound(Player player) {
         player.playSound(Sound.sound(Key.key("block.stone_button.click_on"), Sound.Source.PLAYER, 1.0f, 1.0f));
+    }
+
+    private static void populateMailInventory(List<Mail> mails, Inventory inventory) {
+        for (Mail mail : mails) {
+            ItemStack skull = ItemStack.of(Material.PLAYER_HEAD);
+            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+
+            OfflinePlayer sender = Bukkit.getOfflinePlayer(mail.sender());
+            meta.setOwningPlayer(sender);
+            meta.customName(Component.text(sender.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+
+            skull.setItemMeta(meta);
+
+            TooltipDisplay tooltipDisplay = TooltipDisplay.tooltipDisplay().addHiddenComponents(DataComponentTypes.PROFILE).build();
+            skull.setData(DataComponentTypes.TOOLTIP_DISPLAY, tooltipDisplay);
+
+            inventory.addItem(skull);
+        }
+    }
+
+    private static @Nullable Inventory attemptToOpenMailInventory(Player viewer, OfflinePlayer receiver, List<Mail> mails, boolean notify) {
+        if (mails.isEmpty()) {
+            if (notify) {
+                Component text = Component.text(viewer == receiver ? "You do not have any mail." : receiver.getName() + " does not have any mail.", NamedTextColor.RED);
+                viewer.sendMessage(text);
+            }
+            viewer.closeInventory();
+            return null;
+        }
+
+        return createInventory();
     }
 
     private static Inventory createInventory() {
