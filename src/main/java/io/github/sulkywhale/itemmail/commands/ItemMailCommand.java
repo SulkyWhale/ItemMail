@@ -66,7 +66,6 @@ public class ItemMailCommand implements TabExecutor {
                 return true;
             }
             sender.sendMessage(Component.text("Successfully reloaded ItemMail.", NamedTextColor.GREEN));
-            ItemMail.getPlugin().getLogger().info("Successfully reloaded ItemMail.");
             return true;
         }
 
