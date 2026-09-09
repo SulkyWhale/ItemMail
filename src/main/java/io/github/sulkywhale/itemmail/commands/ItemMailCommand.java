@@ -53,6 +53,23 @@ public class ItemMailCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            if (!sender.hasPermission("itemmail.admin.reload")) {
+                sender.sendMessage(Component.text("You do not have permission!", NamedTextColor.RED));
+                return true;
+            }
+            try {
+                ItemMail.getPlugin().reloadPlugin();
+            } catch (DatabaseInitException e) {
+                sender.sendMessage(Component.text("Failed to load the data source.", NamedTextColor.RED));
+                ItemMail.getPlugin().getLogger().severe("Failed to load the data source: " + e);
+                return true;
+            }
+            sender.sendMessage(Component.text("Successfully reloaded ItemMail.", NamedTextColor.GREEN));
+            ItemMail.getPlugin().getLogger().info("Successfully reloaded ItemMail.");
+            return true;
+        }
+
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text("Only players can execute that command.", NamedTextColor.RED));
             return true;
@@ -106,23 +123,6 @@ public class ItemMailCommand implements TabExecutor {
                 player.playSound(Sound.sound(Key.key("ui.loom.take_result"), Sound.Source.PLAYER, 1f, 1.5f));
                 receiverPlayer.sendMessage(MiniMessage.miniMessage().deserialize("<gold>You received item mail from <player>. Do /itemmail to get it.", Placeholder.unparsed("player", player.getName())));
             }
-            return true;
-        }
-
-        if (args[0].equalsIgnoreCase("reload")) {
-            if (!player.hasPermission("itemmail.admin.reload")) {
-                player.sendMessage(Component.text("You do not have permission!", NamedTextColor.RED));
-                return true;
-            }
-            try {
-                ItemMail.getPlugin().reloadPlugin();
-            } catch (DatabaseInitException e) {
-                sender.sendMessage(Component.text("Failed to load the data source.", NamedTextColor.RED));
-                ItemMail.getPlugin().getLogger().severe("Failed to load the data source: " + e);
-                return true;
-            }
-            sender.sendMessage(Component.text("Successfully reloaded ItemMail.", NamedTextColor.GREEN));
-            ItemMail.getPlugin().getLogger().info("Successfully reloaded ItemMail.");
             return true;
         }
 
