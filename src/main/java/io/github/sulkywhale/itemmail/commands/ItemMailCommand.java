@@ -31,6 +31,16 @@ public class ItemMailCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!(sender instanceof Player player)) {
+            // Console tab completes
+            if (args.length == 1) {
+                if ("reload".startsWith(args[0].toLowerCase())) {
+                    return Collections.singletonList("reload");
+                }
+            }
+            return Collections.emptyList();
+        }
+
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             if ("send".startsWith(args[0].toLowerCase())) {
@@ -43,10 +53,10 @@ public class ItemMailCommand implements TabExecutor {
                 return completions;
             }
             if (sender.hasPermission("itemmail.admin")) {
-                return matchPlayers(args[0]);
+                return matchPlayers(player, args[0]);
             }
         } else if (args.length == 2 && args[0].equalsIgnoreCase("send")) {
-            return matchPlayers(args[1]);
+            return matchPlayers(player, args[1]);
         }
         return Collections.emptyList();
     }
@@ -144,7 +154,7 @@ public class ItemMailCommand implements TabExecutor {
         return true;
     }
 
-    private static List<String> matchPlayers(String arg) {
-        return Bukkit.getOnlinePlayers().stream().map(Player::getName).filter(name -> name.toLowerCase().startsWith(arg.toLowerCase())).toList();
+    private static List<String> matchPlayers(Player player, String arg) {
+        return Bukkit.getOnlinePlayers().stream().filter(player::canSee).map(Player::getName).filter(name -> name.toLowerCase().startsWith(arg.toLowerCase())).toList();
     }
 }
